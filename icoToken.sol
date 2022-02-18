@@ -44,12 +44,12 @@ contract CrowdSale is TDNetwork{
     address payable public deposit; //the address that takes in the investors crypto
     uint tokenPrice = 0.0002 ether;///1 ETH = 5000 TDIS
     uint public hardCap = 2000 ether; //2000 ETH Hard Cap
-    uint public raisedAmount; 
-    uint public saleStart = block.timeStamp;
-    uint public saleEnd = block.timestamp + 604800;//ends in a week
+    uint public raisedAmount; //total amount raised
+    uint public saleStart = block.timeStamp; //starts when contract is created
+    uint public saleEnd = block.timestamp + 604800;//ends in a week of the contract creation
     uint public minInvestment = 0.1 ether;//min investment 0.1 eth
 
-    enum State { beforeStart, running, afterEnd, halted}
+    enum State { beforeStart, running, afterEnd, halted} //ICO states
     State public icoState;
 
     constructor(address payable _deposit){
@@ -60,18 +60,18 @@ contract CrowdSale is TDNetwork{
 
     modifier onlyAdmin(){
         require(msg.sender==admin);
-        _; 
+        _;  //admin (contract creator is the only one who can change states (unless done directly through contract code such as when ICO ends)
     }
     function halt() public onlyAdmin{
-        icoState = State.halted;
+        icoState = State.halted;//ICO paused
     }
 
     function resume() public onlyAdmin{
-        icoState = State.running;
+        icoState = State.running; //ICO running
     }
 
     function changeDepositAddress(address payable newDeposit) public onlyAdmin{
-        deposit = newDeposit;
+        deposit = newDeposit; //change address of where the ETH is deposited
     }
 
     function getCurrentState() public view returns(State){
@@ -90,16 +90,16 @@ contract CrowdSale is TDNetwork{
 
     function invest() payable public returns(bool){
         icoState = getCurrentState();
-        require(icoState == State.running);
+        require(icoState == State.running);//investors can only invest when ICO state is 'running'
 
-        require(msg.value >= minInvestment);
+        require(msg.value >= minInvestment);//has to be atleast min investment
         raisedAmount += msg.value;
-        require(raisedAmount <= hardCap);
+        require(raisedAmount <= hardCap);//total tokens sold must be less than hardcap
 
         uint tokens = msg.value / tokenPrice;
 
-        balances[msg.sender] += tokens;
-        balances[owner] -= tokens;
+        balances[msg.sender] += tokens;//send token to buyer
+        balances[owner] -= tokens;//take away token from seller
         deposit.transfer(msg.value);
         emit invest(msg.sender, msg.value, tokens);
         return true;
