@@ -4,19 +4,19 @@ pragma solidity ^0.8.2;
 contract TDNetwork{
 mapping(address => uint) public balances;
 mapping(address => mapping(address => uint)) public allowance;
-uint public totalSupply = 120000000 * 10 ** 18;
+uint public totalSupply = 120000000 * 10 ** 18; //120million total supply with 18 decimals (to mirror etherium)
 string public name = "TD Network";
 string public symbol = "TDIS";
-uint public decimals = 18;
+uint public decimals = 18; //18 decimal places
 event Transfer(address indexed from, address indexed to, uint value);
 event Approval(address indexed owner, address indexed spender, uint value);
 constructor() {
-balances[msg.sender] = totalSupply;
+balances[msg.sender] = totalSupply; //send total minted tokens to the contract creator
 }
 function balanceOf(address owner) public view returns(uint) {
 return balances[owner];
 }
-function transfer(address to, uint value) public returns(bool) {
+function transfer(address to, uint value) public returns(bool) { //transfer token function
 require(balanceOf(msg.sender) >= value, 'balance too low');
 balances[to] += value;
 balances[msg.sender] -= value;
