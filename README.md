@@ -1,2 +1,2 @@
-# SimpleICO
-Simple token with an ICO function built in
+# Basic ICO
+Basic token with an ICO function built in
