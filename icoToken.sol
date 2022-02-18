@@ -47,13 +47,13 @@ contract CrowdSale is TDNetwork{
     uint public raisedAmount; 
     uint public saleStart = block.timeStamp;
     uint public saleEnd = block.timestamp + 604800;//ends in a week
-    uint public minInvestment = 0.1 ether;//min investment 0.1 bnb
+    uint public minInvestment = 0.1 ether;//min investment 0.1 eth
 
     enum State { beforeStart, running, afterEnd, halted}
     State public icoState;
 
     constructor(address payable _deposit){
-        deposit = _deposit;//where the bnb will be transferred. can be hardcoded
+        deposit = _deposit;//where the eth will be transferred. can be hardcoded
         admin = msg.sender;//can be the same address as deposit address. can also be hardcoded
         icoState = State.beforeStart;
     }
