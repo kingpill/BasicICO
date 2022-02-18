@@ -4,7 +4,7 @@ pragma solidity ^0.8.2;
 contract TDNetwork{
 mapping(address => uint) public balances;
 mapping(address => mapping(address => uint)) public allowance;
-uint public totalSupply = 120000000 * 10 ** 18; //120million total supply with 18 decimals (to mirror etherium)
+uint public totalSupply = 120000000 * 10 ** 18; //120million total supply with 18 decimals
 string public name = "TD Network";
 string public symbol = "TDIS";
 uint public decimals = 18; //18 decimal places
